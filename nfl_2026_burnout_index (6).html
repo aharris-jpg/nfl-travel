@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFL 2026 Travel Burnout Index | Action Network</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#eef2f7;color:#111827;min-height:100vh;padding:28px 20px;}
+.page{max-width:1340px;margin:0 auto;}
+.card{background:#fff;border:1px solid #dde5ef;border-radius:16px;box-shadow:0 2px 6px rgba(0,0,0,.05),0 16px 36px rgba(15,43,70,.10);overflow:hidden;}
+
+/* HEADER */
+.hdr{background:#0F2B46;padding:32px 36px 28px;}
+.hdr-brand{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.an-mark{width:30px;height:30px;background:#00c48c;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#0F2B46;flex-shrink:0;}
+.an-name{font-size:14px;font-weight:800;color:#fff;}
+.an-sep{width:1px;height:16px;background:rgba(255,255,255,.35);}
+.an-tag{font-size:10px;font-weight:800;color:#00c48c;text-transform:uppercase;letter-spacing:.12em;padding:3px 9px;border:1.5px solid rgba(0,196,140,.5);border-radius:4px;}
+.hdr-row{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+.hdr-left{flex:1;min-width:280px;}
+.hdr-title{font-size:32px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:12px;letter-spacing:-.7px;}
+.hdr-title em{color:#00c48c;font-style:normal;}
+.hdr-desc{font-size:14px;color:rgba(255,255,255,.88);line-height:1.75;max-width:540px;}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;flex-shrink:0;width:340px;}
+.kpi{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:12px;padding:14px 16px;}
+.kpi-v{font-size:17px;font-weight:900;color:#fff;letter-spacing:-.3px;line-height:1.2;}
+.kpi-v span{color:#00c48c;}
+.kpi-l{font-size:10px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.09em;margin-top:5px;}
+
+/* TIER TABS */
+.tier-tabs{display:flex;border-bottom:2px solid #eef2f7;background:#fff;overflow-x:auto;}
+.ttab{flex:1;min-width:90px;padding:14px 10px 12px;border:none;background:transparent;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .12s;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.ttab:hover{background:#f9fafb;color:#111827;}
+.ttab.on{color:#0F2B46;border-bottom-color:#00c48c;background:#f0fdf8;}
+.ttab-label{display:flex;align-items:center;gap:6px;}
+.tdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tcount{font-size:11px;font-weight:700;color:#9ca3af;background:#f3f4f6;padding:2px 8px;border-radius:10px;}
+.ttab.on .tcount{background:#d1fae5;color:#065f46;}
+.tier-banner{display:none;padding:10px 24px;font-size:12px;font-weight:700;border-bottom:1px solid #e5e7eb;}
+
+/* CONTROLS */
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 20px;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
+.cl{font-size:10px;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:.1em;}
+.sb{font-size:11px;font-weight:700;padding:5px 13px;border:1.5px solid #e5e7eb;border-radius:14px;background:#fff;color:#6b7280;cursor:pointer;transition:all .1s;}
+.sb:hover{color:#111827;border-color:#9ca3af;}
+.sb.on{background:#0F2B46;color:#fff;border-color:#0F2B46;}
+
+/* BODY */
+.body-layout{display:grid;grid-template-columns:1fr 360px;min-height:560px;}
+.table-col{border-right:2px solid #eef2f7;overflow:hidden;}
+.detail-col{background:#fff;display:flex;flex-direction:column;overflow-y:auto;max-height:700px;}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;overflow-y:auto;max-height:700px;}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:560px;}
+thead th{position:sticky;top:0;z-index:2;background:#f9fafb;border-bottom:2px solid #e5e7eb;padding:10px 12px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:#9ca3af;text-align:right;white-space:nowrap;cursor:pointer;user-select:none;transition:color .1s;}
+thead th:hover,thead th.st{color:#0F2B46;}
+thead th:nth-child(1),thead th:nth-child(2){text-align:left;}
+tbody tr{cursor:pointer;transition:background .08s;}
+tbody tr:hover{filter:brightness(.97);}
+tbody tr.sel td{background:#dbeafe !important;border-bottom-color:#bfdbfe !important;}
+td{padding:11px 12px;font-size:13px;text-align:right;color:#6b7280;border-bottom:1px solid #f3f4f6;vertical-align:middle;}
+td:nth-child(1),td:nth-child(2){text-align:left;}
+tbody tr:last-child td{border-bottom:none;}
+.rn{font-size:13px;font-weight:900;color:#d1d5db;display:inline-block;width:24px;}
+.rn.r1{color:#b91c1c;}.rn.r2{color:#c2410c;}.rn.r3{color:#b45309;}
+.tc{display:flex;align-items:center;gap:10px;min-width:140px;}
+.tlogo{width:30px;height:30px;object-fit:contain;flex-shrink:0;}
+.tname{font-size:13px;font-weight:800;color:#111827;}
+.tsub{font-size:10px;color:#9ca3af;margin-top:1px;}
+.ib{display:inline-block;font-size:9px;font-weight:800;padding:1px 4px;border-radius:3px;margin-left:3px;vertical-align:middle;}
+.ib2{background:#fef3c7;color:#78350f;}.ib1{background:#dbeafe;color:#1e40af;}
+.sc-wrap{display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+.sc-bar{height:18px;border-radius:3px;min-width:4px;flex-shrink:0;}
+.sc-n{font-size:15px;font-weight:900;min-width:42px;text-align:right;letter-spacing:-.3px;}
+.cpos{color:#b91c1c;font-weight:700;}
+.crel{color:#065f46;font-weight:700;}
+.cneu{color:#d1d5db;}
+.cmil{color:#374151;font-weight:700;}
+
+/* ── DETAIL PANEL — clean redesign ── */
+.dp{height:100%;display:flex;flex-direction:column;}
+
+/* Top section: logo + name + score */
+.dp-hero{padding:24px 24px 20px;border-bottom:1px solid #f3f4f6;}
+.dp-hero-top{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.dp-logo{width:52px;height:52px;object-fit:contain;flex-shrink:0;}
+.dp-hero-name{font-size:18px;font-weight:900;color:#111827;letter-spacing:-.4px;line-height:1.2;}
+.dp-hero-sub{font-size:12px;color:#9ca3af;margin-top:3px;font-weight:500;}
+.dp-pill{display:inline-block;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;margin-top:6px;border:1.5px solid transparent;text-transform:uppercase;letter-spacing:.05em;}
+
+/* The big score */
+.dp-score-block{display:flex;align-items:flex-end;gap:0;}
+.dp-score-num{font-size:72px;font-weight:900;line-height:1;letter-spacing:-4px;}
+.dp-score-denom{font-size:16px;font-weight:700;color:#9ca3af;margin-bottom:10px;margin-left:6px;letter-spacing:0;}
+
+/* Stat grid: 3 big numbers */
+.dp-stats{padding:18px 24px;border-bottom:1px solid #f3f4f6;display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.dp-stat{text-align:center;padding:0 8px;}
+.dp-stat+.dp-stat{border-left:1px solid #f3f4f6;}
+.dp-stat-val{font-size:24px;font-weight:900;color:#111827;letter-spacing:-.5px;line-height:1.1;}
+.dp-stat-lbl{font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-top:5px;}
+
+/* Bar comparisons */
+.dp-bars{padding:18px 24px;border-bottom:1px solid #f3f4f6;}
+.dp-bars-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#9ca3af;margin-bottom:12px;}
+.dp-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.dp-bar-row:last-child{margin-bottom:0;}
+.dp-bar-lbl{font-size:12px;color:#6b7280;font-weight:600;width:90px;flex-shrink:0;}
+.dp-bar-bg{flex:1;height:8px;background:#f3f4f6;border-radius:4px;overflow:hidden;}
+.dp-bar-fill{height:100%;border-radius:4px;transition:width .4s ease;}
+.dp-bar-pct{font-size:12px;font-weight:800;color:#111827;min-width:34px;text-align:right;}
+
+/* Modifiers */
+.dp-mods{padding:18px 24px;}
+.dp-mods-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#9ca3af;margin-bottom:12px;}
+.dp-mod{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;margin-bottom:8px;border:1px solid transparent;}
+.dp-mod:last-child{margin-bottom:0;}
+.dp-mod-lbl{font-size:13px;font-weight:600;}
+.dp-mod-val{font-size:15px;font-weight:900;}
+.mod-p{background:#fef2f2;border-color:#fca5a5;}
+.mod-p .dp-mod-lbl{color:#9f1239;}
+.mod-p .dp-mod-val{color:#b91c1c;}
+.mod-r{background:#f0fdf4;border-color:#86efac;}
+.mod-r .dp-mod-lbl{color:#14532d;}
+.mod-r .dp-mod-val{color:#166534;}
+.mod-n{background:#f9fafb;border-color:#e5e7eb;}
+.mod-n .dp-mod-lbl{color:#6b7280;}
+.mod-n .dp-mod-val{color:#9ca3af;}
+
+/* SOURCES */
+.sources{padding:20px 28px;border-top:2px solid #eef2f7;background:#f9fafb;}
+.sources-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin-bottom:12px;}
+.sources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;}
+.src{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:#fff;border-radius:8px;border:1px solid #e5e7eb;}
+.src-num{font-size:12px;font-weight:900;color:#00c48c;flex-shrink:0;margin-top:1px;}
+.src-name{font-size:12px;font-weight:700;color:#111827;line-height:1.3;}
+.src-desc{font-size:11px;color:#6b7280;margin-top:2px;line-height:1.5;}
+.sources-note{font-size:11px;color:#9ca3af;margin-top:12px;line-height:1.65;}
+
+@media(max-width:1000px){
+  .body-layout{grid-template-columns:1fr;}
+  .table-col{border-right:none;border-bottom:2px solid #eef2f7;}
+  .detail-col{max-height:none;}
+}
+@media(max-width:800px){
+  .hdr{padding:22px 18px;}
+  .hdr-row{flex-direction:column;}
+  .kpis{width:100%;}
+  .hdr-title{font-size:26px;}
+}
+</style>
+</head>
+<body>
+<div class="page"><div class="card">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-brand">
+    <div class="an-mark">AN</div>
+    <span class="an-name">Action Network</span>
+    <div class="an-sep"></div>
+    <span class="an-tag">NFL Research · 2026</span>
+  </div>
+  <div class="hdr-row">
+    <div class="hdr-left">
+      <div class="hdr-title">NFL 2026 <em>Travel Burnout Index</em></div>
+      <div class="hdr-desc">The 49ers fly to Australia and Mexico City. Jacksonville plays back-to-back London games. The Chargers rack up 32 time zone crossings without a single international game. Here's what the full 272-game schedule costs every team.</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-v"><span>49ers</span> — 100.0</div><div class="kpi-l">Most burdened</div></div>
+      <div class="kpi"><div class="kpi-v"><span>37,890</span> miles</div><div class="kpi-l">Peak season mileage</div></div>
+      <div class="kpi"><div class="kpi-v"><span>9</span> games</div><div class="kpi-l">International slate</div></div>
+      <div class="kpi"><div class="kpi-v"><span>Browns</span> — 0.0</div><div class="kpi-l">Least burdened</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIER TABS -->
+<div class="tier-tabs" id="ttabs">
+  <button class="ttab on" onclick="setTier('all',this)"><span class="ttab-label"><span class="tdot" style="background:#6b7280"></span>All teams</span><span class="tcount" id="tc-all">32</span></button>
+  <button class="ttab" onclick="setTier('extreme',this)"><span class="ttab-label"><span class="tdot" style="background:#991b1b"></span>Most burnt out</span><span class="tcount" id="tc-extreme"></span></button>
+  <button class="ttab" onclick="setTier('high',this)"><span class="ttab-label"><span class="tdot" style="background:#ea580c"></span>Highly burdened</span><span class="tcount" id="tc-high"></span></button>
+  <button class="ttab" onclick="setTier('moderate',this)"><span class="ttab-label"><span class="tdot" style="background:#d97706"></span>Moderate burden</span><span class="tcount" id="tc-moderate"></span></button>
+  <button class="ttab" onclick="setTier('low',this)"><span class="ttab-label"><span class="tdot" style="background:#16a34a"></span>Least burnt out</span><span class="tcount" id="tc-low"></span></button>
+</div>
+<div class="tier-banner" id="tier-banner"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <span class="cl">Conference</span>
+  <div style="display:flex;gap:4px" id="conf-btns">
+    <button class="sb on" onclick="setConf('all',this)">All</button>
+    <button class="sb" onclick="setConf('AFC',this)">AFC</button>
+    <button class="sb" onclick="setConf('NFC',this)">NFC</button>
+  </div>
+  <span class="cl" style="margin-left:12px">Sort by</span>
+  <div style="display:flex;gap:4px">
+    <button class="sb on" id="ss" onclick="srt('score',this)">Burnout score</button>
+    <button class="sb" id="sm" onclick="srt('miles',this)">Miles</button>
+    <button class="sb" id="st2" onclick="srt('tzC',this)">TZ crossings</button>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-layout">
+  <div class="table-col">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:36px">#</th>
+          <th>Team</th>
+          <th>Burnout</th>
+          <th>Miles</th>
+          <th>TZ cross</th>
+          <th>Intl hrs</th>
+          <th>No-bye</th>
+          <th>Relief</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="detail-col">
+    <div class="dp" id="dp">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- SOURCES -->
+<div class="sources">
+  <div class="sources-title">Sources &amp; methodology</div>
+  <div class="sources-grid">
+    <div class="src"><span class="src-num">1</span><div><div class="src-name">NFL.com — Official 2026 Schedule</div><div class="src-desc">Full 272-game schedule released May 14, 2026. All game dates, venues, and locations.</div></div></div>
+    <div class="src"><span class="src-num">2</span><div><div class="src-name">Bleacher Report / Bookies.com</div><div class="src-desc">Per-team season mileage totals by Bill Speros at Bookies.com, published May 13, 2026.</div></div></div>
+    <div class="src"><span class="src-num">3</span><div><div class="src-name">NFL Football Operations — Intl Games</div><div class="src-desc">Full 2026 international slate announced May 13, 2026. Nine games across 7 countries.</div></div></div>
+    <div class="src"><span class="src-num">4</span><div><div class="src-name">Action Network Data Team</div><div class="src-desc">Scoring: 40% mileage · 30% time zones · 30% jet-lag hours + modifiers for short rest, no-bye penalties, road stay relief.</div></div></div>
+    <div class="src"><span class="src-num">5</span><div><div class="src-name">ESPN — Team Logos</div><div class="src-desc">Logos via ESPN CDN. All NFL trademarks are property of the National Football League.</div></div></div>
+    <div class="src"><span class="src-num">6</span><div><div class="src-name">NBC Sports Bay Area</div><div class="src-desc">Matt Maiocco estimated the 49ers' SF–Melbourne round trip at ~15,800 air miles (Feb 2026).</div></div></div>
+  </div>
+  <div class="sources-note">Analysis by the Action Network data team, May 2026. Scores normalized 0–100 against the full league range. International jet-lag hours use a 2-hour minimum per game.</div>
+</div>
+
+</div></div>
+
+<script>
+const ESPN='https://a.espncdn.com/i/teamlogos/nfl/500/';
+const LOGO={sf:'sf',lar:'lar',ne:'ne',jax:'jax',hou:'hou',wsh:'was',phi:'phi',det:'det',dal:'dal',lac:'lac',atl:'atl',ind:'ind',cin:'cin',lv:'lv',sea:'sea',buf:'buf',nyj:'nyj',kc:'kc',mia:'mia',den:'den',ari:'ari',bal:'bal',nyg:'nyg',min:'min',gb:'gb',chi:'chi',ten:'ten',tb:'tb',car:'car',no:'no',pit:'pit',cle:'cle'};
+
+const T=[
+  {rank:1,name:'San Francisco',full:'San Francisco 49ers',city:'Santa Clara, CA',conf:'NFC',div:'West',k:'sf',score:100,tz:-8,intl:2,miles:37890,tzC:62,iHrs:20,sr:0,nbp:1,rs:0,ms:0},
+  {rank:2,name:'LA Rams',full:'Los Angeles Rams',city:'Inglewood, CA',conf:'NFC',div:'West',k:'lar',score:92.9,tz:-8,intl:1,miles:34969,tzC:60,iHrs:18,sr:0,nbp:1,rs:0,ms:0},
+  {rank:3,name:'New England',full:'New England Patriots',city:'Foxborough, MA',conf:'AFC',div:'East',k:'ne',score:49.6,tz:-5,intl:1,miles:27568,tzC:28,iHrs:6,sr:1,nbp:0,rs:0,ms:0},
+  {rank:4,name:'Jacksonville',full:'Jacksonville Jaguars',city:'Jacksonville, FL',conf:'AFC',div:'South',k:'jax',score:48.1,tz:-5,intl:2,miles:26442,tzC:24,iHrs:10,sr:0,nbp:1,rs:4,ms:11194},
+  {rank:5,name:'Houston',full:'Houston Texans',city:'Houston, TX',conf:'AFC',div:'South',k:'hou',score:46.8,tz:-6,intl:1,miles:26000,tzC:26,iHrs:6,sr:0,nbp:1,rs:2,ms:3887},
+  {rank:6,name:'Washington',full:'Washington Commanders',city:'Landover, MD',conf:'NFC',div:'East',k:'wsh',score:46.0,tz:-5,intl:1,miles:23514,tzC:26,iHrs:5,sr:0,nbp:1,rs:0,ms:0},
+  {rank:7,name:'Philadelphia',full:'Philadelphia Eagles',city:'Philadelphia, PA',conf:'NFC',div:'East',k:'phi',score:41.6,tz:-5,intl:1,miles:21695,tzC:25,iHrs:5,sr:0,nbp:1,rs:1,ms:949},
+  {rank:8,name:'Detroit',full:'Detroit Lions',city:'Detroit, MI',conf:'NFC',div:'North',k:'det',score:37.8,tz:-5,intl:1,miles:18984,tzC:21,iHrs:6,sr:0,nbp:1,rs:1,ms:346},
+  {rank:9,name:'Dallas',full:'Dallas Cowboys',city:'Arlington, TX',conf:'NFC',div:'East',k:'dal',score:37.2,tz:-6,intl:1,miles:27400,tzC:22,iHrs:3,sr:0,nbp:0,rs:1,ms:1527},
+  {rank:10,name:'LA Chargers',full:'Los Angeles Chargers',city:'Inglewood, CA',conf:'AFC',div:'West',k:'lac',score:36.5,tz:-8,intl:0,miles:24823,tzC:32,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:11,name:'Atlanta',full:'Atlanta Falcons',city:'Atlanta, GA',conf:'NFC',div:'South',k:'atl',score:34.2,tz:-5,intl:1,miles:17125,tzC:18,iHrs:6,sr:0,nbp:1,rs:1,ms:793},
+  {rank:12,name:'Indianapolis',full:'Indianapolis Colts',city:'Indianapolis, IN',conf:'AFC',div:'South',k:'ind',score:33.1,tz:-5,intl:1,miles:15872,tzC:18,iHrs:5,sr:0,nbp:1,rs:0,ms:0},
+  {rank:13,name:'Cincinnati',full:'Cincinnati Bengals',city:'Cincinnati, OH',conf:'AFC',div:'North',k:'cin',score:32.1,tz:-5,intl:1,miles:15434,tzC:14,iHrs:6,sr:0,nbp:1,rs:0,ms:0},
+  {rank:14,name:'Las Vegas',full:'Las Vegas Raiders',city:'Las Vegas, NV',conf:'AFC',div:'West',k:'lv',score:32.0,tz:-8,intl:0,miles:21100,tzC:32,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:15,name:'Seattle',full:'Seattle Seahawks',city:'Seattle, WA',conf:'NFC',div:'West',k:'sea',score:31.0,tz:-8,intl:0,miles:23303,tzC:24,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:16,name:'Buffalo',full:'Buffalo Bills',city:'Orchard Park, NY',conf:'AFC',div:'East',k:'buf',score:26.8,tz:-5,intl:0,miles:18035,tzC:17,iHrs:0,sr:2,nbp:0,rs:1,ms:3954},
+  {rank:17,name:'NY Jets',full:'New York Jets',city:'East Rutherford, NJ',conf:'AFC',div:'East',k:'nyj',score:25.6,tz:-5,intl:0,miles:21436,tzC:21,iHrs:0,sr:0,nbp:0,rs:1,ms:303},
+  {rank:18,name:'Kansas City',full:'Kansas City Chiefs',city:'Kansas City, MO',conf:'AFC',div:'West',k:'kc',score:25.2,tz:-6,intl:0,miles:18481,tzC:24,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:19,name:'Miami',full:'Miami Dolphins',city:'Miami Gardens, FL',conf:'AFC',div:'East',k:'mia',score:24.9,tz:-5,intl:0,miles:24670,tzC:15,iHrs:0,sr:0,nbp:0,rs:2,ms:6081},
+  {rank:20,name:'Denver',full:'Denver Broncos',city:'Denver, CO',conf:'AFC',div:'West',k:'den',score:21.7,tz:-6,intl:0,miles:18643,tzC:20,iHrs:0,sr:0,nbp:0,rs:1,ms:1452},
+  {rank:21,name:'Arizona',full:'Arizona Cardinals',city:'Glendale, AZ',conf:'NFC',div:'West',k:'ari',score:19.0,tz:-7,intl:0,miles:15636,tzC:18,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:22,name:'Baltimore',full:'Baltimore Ravens',city:'Baltimore, MD',conf:'AFC',div:'North',k:'bal',score:16.8,tz:-5,intl:1,miles:17661,tzC:6,iHrs:2,sr:0,nbp:0,rs:1,ms:329},
+  {rank:23,name:'NY Giants',full:'New York Giants',city:'East Rutherford, NJ',conf:'NFC',div:'East',k:'nyg',score:15.9,tz:-5,intl:0,miles:15372,tzC:12,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:24,name:'Minnesota',full:'Minnesota Vikings',city:'Minneapolis, MN',conf:'NFC',div:'North',k:'min',score:16.2,tz:-6,intl:1,miles:14905,tzC:8,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:25,name:'Green Bay',full:'Green Bay Packers',city:'Green Bay, WI',conf:'NFC',div:'North',k:'gb',score:12.6,tz:-6,intl:0,miles:12608,tzC:12,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:26,name:'Chicago',full:'Chicago Bears',city:'Chicago, IL',conf:'NFC',div:'North',k:'chi',score:11.1,tz:-6,intl:0,miles:10628,tzC:14,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:27,name:'Tennessee',full:'Tennessee Titans',city:'Nashville, TN',conf:'AFC',div:'South',k:'ten',score:10.2,tz:-6,intl:0,miles:10967,tzC:15,iHrs:0,sr:0,nbp:0,rs:1,ms:1180},
+  {rank:28,name:'Tampa Bay',full:'Tampa Bay Buccaneers',city:'Tampa, FL',conf:'NFC',div:'South',k:'tb',score:9.0,tz:-5,intl:0,miles:11908,tzC:6,iHrs:0,sr:0,nbp:0,rs:0,ms:0},
+  {rank:29,name:'Carolina',full:'Carolina Panthers',city:'Charlotte, NC',conf:'NFC',div:'South',k:'car',score:8.6,tz:-5,intl:0,miles:8634,tzC:6,iHrs:0,sr:1,nbp:0,rs:0,ms:0},
+  {rank:30,name:'New Orleans',full:'New Orleans Saints',city:'New Orleans, LA',conf:'NFC',div:'South',k:'no',score:5.8,tz:-6,intl:0,miles:11377,tzC:12,iHrs:0,sr:0,nbp:0,rs:3,ms:3448},
+  {rank:31,name:'Pittsburgh',full:'Pittsburgh Steelers',city:'Pittsburgh, PA',conf:'AFC',div:'North',k:'pit',score:1.7,tz:-5,intl:0,miles:8086,tzC:4,iHrs:0,sr:0,nbp:0,rs:1,ms:1315},
+  {rank:32,name:'Cleveland',full:'Cleveland Browns',city:'Cleveland, OH',conf:'AFC',div:'North',k:'cle',score:0.0,tz:-5,intl:0,miles:8172,tzC:4,iHrs:0,sr:0,nbp:0,rs:2,ms:2074},
+];
+
+const TIERS={
+  extreme:{min:70,label:'Most burnt out',desc:'Score 70–100 · Intl multi-game travel, no recovery bye. 15,000+ mile trips.',color:'#991b1b',bg:'rgba(153,27,27,0.06)',rowBg:'rgba(220,38,38,0.04)'},
+  high:{min:35,label:'Highly burdened',desc:'Score 35–70 · At least one intl game or extreme domestic mileage.',color:'#c2410c',bg:'rgba(194,65,12,0.06)',rowBg:'rgba(249,115,22,0.03)'},
+  moderate:{min:20,label:'Moderate burden',desc:'Score 20–35 · Heavy domestic travel, significant TZ crossings, no intl games.',color:'#92400e',bg:'rgba(146,64,14,0.05)',rowBg:'rgba(234,179,8,0.04)'},
+  low:{min:-1,label:'Least burnt out',desc:'Score 0–20 · Central/East Coast, low mileage, no international games.',color:'#065f46',bg:'rgba(6,95,70,0.05)',rowBg:'rgba(16,185,129,0.03)'},
+};
+
+// Short punchy insight per team — one sentence, no fluff
+const INSIGHT={
+  'San Francisco':'Australia + Mexico City. Two intl trips, one no-bye. No team comes close.',
+  'LA Rams':'Home team for the first-ever NFL game in Australia. 15,800 miles round trip, no bye.',
+  'Jacksonville':'Two London games, but the NFL kept them there between weeks — saving 11,194 miles.',
+  'New England':'Munich in Week 10, short-rest road game on top. East Coast base keeps it out of the top tier.',
+  'Houston':'London Week 6, no bye after. Two road stays saved ~4,000 miles. Without those: score ~55.',
+  'Washington':'London Week 4, no bye. East Coast base helps the mileage; the no-bye penalty hits anyway.',
+  'Philadelphia':'London Week 5. No bye after, but one road stay saves 949 miles.',
+  'Detroit':'Munich Week 10 with no bye after. Road stay relief softens it slightly.',
+  'Dallas':'Rio Week 3 — but only +1hr jet lag. Road stay saves 1,527 miles.',
+  'LA Chargers':'No intl games but 32 TZ crossings — most among non-intl teams. Pure domestic grind.',
+  'Atlanta':'Madrid Week 9, no bye. Road stay saves 793 miles.',
+  'Indianapolis':'London Week 4, no bye after. No domestic road stay clusters.',
+  'Cincinnati':'Madrid Week 9, no bye after. Otherwise a compact schedule.',
+  'Las Vegas':'No intl games, 32 TZ crossings. West Coast base drives the schedule.',
+  'Seattle':'No intl games, but West Coast means every East trip costs 3 time zones each way.',
+  'Buffalo':'Two short-rest road trips — most in the league. One road stay saves 3,954 miles.',
+  'NY Jets':'One road stay saves 303 miles. No intl games, moderate mileage.',
+  'Kansas City':'No intl games, no road stay clusters. Straightforward AFC West schedule.',
+  'Miami':'No intl games but 2 road stays save 6,081 miles — most relief in the league.',
+  'Denver':'One road stay saves 1,452 miles. Central location keeps mileage manageable.',
+  'Arizona':'No intl games. Mountain time zone softens some East Coast crossings.',
+  'Baltimore':'Rio Week 3 — but only 2hr jet lag (Brazil ~ET). One road stay helps.',
+  'NY Giants':'No intl games, East Coast base. Clean, low-stress schedule.',
+  'Minnesota':'Mexico City Week 11 — but zero jet lag (same UTC-6 in November).',
+  'Green Bay':'No intl games. Central location, quiet schedule.',
+  'Chicago':'No intl games. Central location, short mileage.',
+  'Tennessee':'No intl games. One road stay saves 1,180 miles.',
+  'Tampa Bay':'No intl games, East Coast, low mileage.',
+  'Carolina':'No intl games, lowest mileage in the league at 8,634 miles.',
+  'New Orleans':'3 road stays save 3,448 miles — the NFL was very kind here.',
+  'Pittsburgh':'No intl games. Second-lowest mileage. One road stay saves 1,315 miles.',
+  'Cleveland':'No intl games. Two road stays save 2,074 miles. Easiest schedule in the league.',
+};
+
+function hc(s){
+  if(s>=90)return'#991b1b';if(s>=70)return'#dc2626';if(s>=50)return'#ea580c';
+  if(s>=35)return'#f97316';if(s>=25)return'#d97706';if(s>=14)return'#65a30d';return'#16a34a';
+}
+function tierOf(s){
+  if(s>=70)return'extreme';if(s>=35)return'high';if(s>=20)return'moderate';return'low';
+}
+
+let curTier='all',curConf='all',sk='score',sd=-1,sel=null;
+
+function getRows(){
+  let rows=T.filter(t=>{
+    if(curConf!=='all'&&t.conf!==curConf)return false;
+    if(curTier==='all')return true;
+    return tierOf(t.score)===curTier;
+  });
+  let dir=sd;
+  if(sk==='score'&&curTier==='low')dir=1;
+  rows.sort((a,b)=>{const av=a[sk],bv=b[sk];return typeof av==='string'?dir*av.localeCompare(bv):dir*(av-bv);});
+  return rows;
+}
+
+function updateCounts(){
+  const c={extreme:0,high:0,moderate:0,low:0};
+  T.forEach(t=>c[tierOf(t.score)]++);
+  document.getElementById('tc-all').textContent=T.length;
+  Object.keys(c).forEach(k=>{const el=document.getElementById('tc-'+k);if(el)el.textContent=c[k];});
+}
+
+function render(){
+  const rows=getRows();
+  if(rows.length>0&&(!sel||!rows.find(t=>t.name===sel))){
+    sel=rows[0].name;
+    setTimeout(()=>renderDetail(rows[0]),0);
+  }
+  const banner=document.getElementById('tier-banner');
+  if(curTier!=='all'){
+    const ti=TIERS[curTier];
+    banner.style.cssText=`display:block;background:${ti.bg};color:${ti.color};border-left:4px solid ${ti.color};padding:10px 24px;font-size:12px;font-weight:700;border-bottom:1px solid #e5e7eb;`;
+    banner.textContent=`${ti.label} · ${ti.desc}`;
+  } else {
+    banner.style.display='none';
+  }
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';
+  rows.forEach(t=>{
+    const c=hc(t.score);
+    const ti=TIERS[tierOf(t.score)];
+    const ib=t.intl===2?`<span class="ib ib2">2×INTL</span>`:t.intl===1?`<span class="ib ib1">INTL</span>`:'';
+    const rk=t.rank===1?'r1':t.rank===2?'r2':t.rank===3?'r3':'';
+    const tr=document.createElement('tr');
+    if(sel===t.name)tr.classList.add('sel');
+    else tr.style.background=ti.rowBg;
+    tr.innerHTML=`
+      <td><span class="rn ${rk}">${t.rank}</span></td>
+      <td><div class="tc"><img class="tlogo" src="${ESPN}${LOGO[t.k]}.png" alt="${t.name}" width="30" height="30" loading="lazy">
+        <div><div class="tname">${t.name}${ib}</div><div class="tsub">${t.conf} · ${t.div}</div></div></div></td>
+      <td><div class="sc-wrap">
+        <div class="sc-bar" style="width:${Math.max(4,Math.round(t.score))}px;background:${c}"></div>
+        <span class="sc-n" style="color:${c}">${t.score.toFixed(1)}</span>
+      </div></td>
+      <td class="cmil">${t.miles.toLocaleString()}</td>
+      <td>${t.tzC}</td>
+      <td>${t.iHrs>0?`<strong style="color:#111827;font-weight:800">${t.iHrs}h</strong>`:'<span class="cneu">—</span>'}</td>
+      <td class="${t.nbp>0?'cpos':'cneu'}">${t.nbp>0?`<strong>+${t.nbp}</strong>`:'—'}</td>
+      <td class="${t.rs>0?'crel':'cneu'}">${t.rs>0?`<strong>−${t.rs}x</strong>`:'—'}</td>
+    `;
+    tr.addEventListener('click',()=>{sel=t.name;render();renderDetail(t);});
+    tbody.appendChild(tr);
+  });
+  updateCounts();
+}
+
+function renderDetail(t){
+  const c=hc(t.score);
+  const ti=TIERS[tierOf(t.score)];
+  const insight=INSIGHT[t.name]||`${t.name} · ${t.conf} ${t.div}`;
+
+  const mods=[];
+  if(t.sr>0) mods.push({cls:'mod-p',lbl:`Short-rest road trip${t.sr>1?'s':''} ×${t.sr}`,val:`+${t.sr}`});
+  if(t.nbp>0) mods.push({cls:'mod-p',lbl:'Intl game, no bye after',val:`+${t.nbp}`});
+  if(t.rs>0) mods.push({cls:'mod-r',lbl:`Road stays ×${t.rs} · ${t.ms.toLocaleString()} mi saved`,val:`−${t.rs}`});
+  if(mods.length===0) mods.push({cls:'mod-n',lbl:'No schedule modifiers',val:'±0'});
+
+  document.getElementById('dp').innerHTML=`
+    <div class="dp-hero">
+      <div class="dp-hero-top">
+        <img class="dp-logo" src="${ESPN}${LOGO[t.k]}.png" alt="${t.full}" width="52" height="52">
+        <div>
+          <div class="dp-hero-name">${t.full}</div>
+          <div class="dp-hero-sub">${t.city} · UTC${t.tz}</div>
+          <div class="dp-pill" style="background:${ti.bg};color:${ti.color};border-color:${ti.color}60">
+            #${t.rank} of 32 · ${ti.label}
+          </div>
+        </div>
+      </div>
+      <div class="dp-score-block">
+        <div class="dp-score-num" style="color:${c}">${t.score.toFixed(1)}</div>
+        <div class="dp-score-denom">/ 100</div>
+      </div>
+      <div style="font-size:13px;color:#6b7280;margin-top:10px;line-height:1.6;font-weight:500">${insight}</div>
+    </div>
+
+    <div class="dp-stats">
+      <div class="dp-stat">
+        <div class="dp-stat-val">${t.miles.toLocaleString()}</div>
+        <div class="dp-stat-lbl">Season miles</div>
+      </div>
+      <div class="dp-stat">
+        <div class="dp-stat-val">${t.tzC}</div>
+        <div class="dp-stat-lbl">TZ crossings</div>
+      </div>
+      <div class="dp-stat">
+        <div class="dp-stat-val">${t.iHrs>0?t.iHrs+'h':'—'}</div>
+        <div class="dp-stat-lbl">Jet-lag hours</div>
+      </div>
+    </div>
+
+    <div class="dp-bars">
+      <div class="dp-bars-title">vs. league maximum</div>
+      <div class="dp-bar-row">
+        <span class="dp-bar-lbl">Mileage</span>
+        <div class="dp-bar-bg"><div class="dp-bar-fill" style="width:${Math.round(t.miles/37890*100)}%;background:${c}"></div></div>
+        <span class="dp-bar-pct">${Math.round(t.miles/37890*100)}%</span>
+      </div>
+      <div class="dp-bar-row">
+        <span class="dp-bar-lbl">Time zones</span>
+        <div class="dp-bar-bg"><div class="dp-bar-fill" style="width:${Math.round(t.tzC/62*100)}%;background:${c}"></div></div>
+        <span class="dp-bar-pct">${Math.round(t.tzC/62*100)}%</span>
+      </div>
+      ${t.iHrs>0?`<div class="dp-bar-row">
+        <span class="dp-bar-lbl">Jet-lag hrs</span>
+        <div class="dp-bar-bg"><div class="dp-bar-fill" style="width:${Math.round(t.iHrs/20*100)}%;background:${c}"></div></div>
+        <span class="dp-bar-pct">${Math.round(t.iHrs/20*100)}%</span>
+      </div>`:''}
+    </div>
+
+    <div class="dp-mods">
+      <div class="dp-mods-title">Schedule modifiers</div>
+      ${mods.map(m=>`<div class="dp-mod ${m.cls}"><span class="dp-mod-lbl">${m.lbl}</span><span class="dp-mod-val">${m.val}</span></div>`).join('')}
+    </div>
+  `;
+}
+
+function setTier(t,btn){
+  curTier=t;
+  document.querySelectorAll('.ttab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(sk==='score')sd=(t==='low')?1:-1;
+  sel=null;render();
+}
+function setConf(c,btn){
+  curConf=c;
+  document.querySelectorAll('#conf-btns .sb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');sel=null;render();
+}
+function srt(k,btn){
+  sk=k;sd=(k==='name')?1:-1;
+  if(k==='score'&&curTier==='low')sd=1;
+  document.querySelectorAll('#ss,#sm,#st2').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');render();
+}
+
+render();
+</script>
+</body>
+</html>
